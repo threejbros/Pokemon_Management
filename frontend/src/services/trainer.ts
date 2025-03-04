@@ -4,9 +4,11 @@ import type { Trainer } from '../types/Trainer';
 export const trainerAPI = createApi({
     reducerPath: 'trainerAPI',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api'}),
+    tagTypes: ['allTrainers'],
     endpoints: (builder) => ({
         getAllTrainers: builder.query<{allTrainers: Trainer[], count: number}, void>({
-            query: () => '/trainers'
+            query: () => '/trainers',
+            providesTags: ['allTrainers']
         }),
         createNewTrainer: builder.mutation<Trainer, Trainer>({
             query: (trainer) => ({
@@ -29,7 +31,8 @@ export const trainerAPI = createApi({
             query: (trainer_id) => ({
                 url: `/trainers/${trainer_id}`,
                 method: 'DELETE'
-            })
+            }), 
+            invalidatesTags: ['allTrainers']
         }),
         getTrainerForSpecificPokemon: builder.query<{trainer: Trainer; msg: string}, string>({
             query: (pokemon_id) => `/trainers/pokemon/${pokemon_id}`,
