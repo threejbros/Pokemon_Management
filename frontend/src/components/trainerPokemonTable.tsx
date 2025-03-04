@@ -11,9 +11,10 @@ const PokemonRow: React.FC<{pokemon: Pokemon; trainer: Trainer}> = ({pokemon, tr
 
     // If the pokemon has no moves, then disable the dropdown and show "No moves available."
     // Otherwise if there are moves, show all the options in the dropdown.
-    const moveOptions = data?.allPokemonMoves?.length 
-        ? data.allPokemonMoves.map((move) => (
-            <option key={move._id} value={move.name}>{move.name}</option>))
+    const moveOptions = data?.allPokemonMoves?.length
+        ? data.allPokemonMoves
+            .filter((move) => move !== null && move !== undefined)
+            .map((move) => (<option key={move._id} value={move.name}>{move.name}</option>))
         : <option key="nomoves" disabled>No Moves Available</option>;
         
     // We also need to resolve the scenarios where loading is happening and when an error occurs.
@@ -57,7 +58,9 @@ const TrainerRow: React.FC<{trainer: Trainer}> = ({trainer}) => {
         return null;
     }
 
-    const pokemonMoveRows = data?.allPokemonsWithSpecifiedTrainer?.map((pokemon) => (
+    const pokemonMoveRows = data.allPokemonsWithSpecifiedTrainer
+    .filter((pokemon) => pokemon !== null && pokemon !== undefined) 
+    .map((pokemon) => (
         <PokemonRow key={pokemon._id} pokemon={pokemon} trainer={trainer}/>
     ));
 
@@ -75,8 +78,9 @@ export const TrainerPokemonTable: React.FC = () => {
     }
 
     const trainerPokemonRows = data?.allTrainers?.length 
-        ? data?.allTrainers?.map((trainer) => (
-            <TrainerRow key={trainer._id} trainer={trainer} />))
+        ? data?.allTrainers
+            .filter((trainer) => trainer !== null && trainer !== undefined) 
+            .map((trainer) => (<TrainerRow key={trainer._id} trainer={trainer} />))
         : (<tr><td colSpan = {4}> No Data Available. Add Trainers with Pokemons First.</td></tr>);
     
     return (
