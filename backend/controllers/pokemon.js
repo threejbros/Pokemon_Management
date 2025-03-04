@@ -79,7 +79,7 @@ const getAllPokemonForSpecifiedTrainer = async (req, res) => {
         const allTrainerPokemonRecords = await TrainerPokemon.find({trainer_id: trainerID}).populate("instance_id");
         // If this trainer has no Pokemons, then return an empty array and count = 0;
         if(allTrainerPokemonRecords.length === 0) {
-            return res.status(200).json({allPokemonsWithSpecifiedTrainer: [], count: 0});
+            return res.status(200).json({allPokemonsWithSpecifiedTrainer: null, count: 0});
         }
         // This will retrieve only the individual valid Pokemon records 
         const allPokemonsWithSpecifiedTrainer = allTrainerPokemonRecords.map(record => record.instance_id);
