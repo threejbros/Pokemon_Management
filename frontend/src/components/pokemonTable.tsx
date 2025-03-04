@@ -1,6 +1,6 @@
 import React from 'react';
 import Tooltip from '@mui/material/Tooltip'
-import { useGetAllIndividualPokemonsQuery } from '../services/pokemon';
+import { useGetAllIndividualPokemonsQuery, useRemovePokemonMutation } from '../services/pokemon';
 import { Pokemon } from '../types/Pokemon';
 import { useGetTrainerForSpecificPokemonQuery } from '../services/trainer';
 import { useGetPokemonMovesQuery } from '../services/pokemonMoves';
@@ -23,6 +23,19 @@ const PokemonRowWithMoves: React.FC<{pokemon: Pokemon; trainerName: string}> = (
                      <option value="">Show Moves</option>
                      {moveOptions}
                  </select>));
+
+    const [deletePokemon] = useRemovePokemonMutation();
+    
+    const handleDelete = async () => {
+        try {
+            console.log('attempting to delete pokemon')
+            await deletePokemon(pokemon._id).unwrap();
+            console.log(`Deleted Pokemon with ID ${pokemon._id}`);
+        }
+        catch (err) {
+            console.log('Error: failed to delete Pokemon: ', err);
+        }
+    }
      
      return (
          <tr>
@@ -36,7 +49,7 @@ const PokemonRowWithMoves: React.FC<{pokemon: Pokemon; trainerName: string}> = (
              <td>{movesData?.count}</td>
              <td>{moves}</td>
              <td><button type="button">Add Move</button></td>
-             <td><button type="button">X</button></td>
+             <td><button type="button" onClick={handleDelete}>X</button></td>
          </tr>
      );
 };

@@ -4,9 +4,11 @@ import { Pokemon } from '../types/Pokemon';
 export const pokemonAPI = createApi({
     reducerPath: 'pokemonAPI',
     baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000/api/pokemons'}),
+    tagTypes: ['allPokemons'],
     endpoints: (builder) => ({
         getAllIndividualPokemons: builder.query<{allPokemons: Pokemon[], count: number}, void>({
             query: () => '',
+            providesTags: ['allPokemons'],
         }),
         createNewPokemon: builder.mutation<Pokemon, Pokemon>({
             query: (pokemon) => ({
@@ -29,7 +31,8 @@ export const pokemonAPI = createApi({
             query: (pokemon_id) => ({
                 url: `/${pokemon_id}`,
                 method: 'DELETE'
-            })
+            }),
+            invalidatesTags: ['allPokemons']
         }),
         getAllPokemonForSpecifiedTrainer: builder.query<{allPokemonsWithSpecifiedTrainer: Pokemon[], count: number}, string>({
             query: (trainer_id) => `/trainers/${trainer_id}`
