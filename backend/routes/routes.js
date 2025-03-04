@@ -53,15 +53,6 @@ router.route('/api/pokemons/trainers/:trainer_id')
     .get(getAllPokemonForSpecifiedTrainer)
     .post(addPokemonForTrainer);
 
-// router.route('/api/pokemonstype/:type_id')
-//     .get(getAllPokemonOfType);
-
-// router.route('/api/pokemonstype')
-//     .post(createNewPokemonType);
-
-// router.route('/api/moves')
-//     .get(getAllMoves);
-
 /*
  * getPokemonMoves -> to get all the moves of a specific pokemon
  * addNewMoveForPokemon -> add new move for specified pokemon
